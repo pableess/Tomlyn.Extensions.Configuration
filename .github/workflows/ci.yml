@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Test
+        run: dotnet test Tomlyn.Extensions.Configuration.Tests/Tomlyn.Extensions.Configuration.Tests.csproj -c Release
+
+  aot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install NativeAOT prerequisites
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+
+      - name: Publish NativeAOT smoke test
+        run: dotnet publish Tomlyn.Extensions.Configuration.AotTests/Tomlyn.Extensions.Configuration.AotTests.csproj -c Release -r linux-x64
+
+      - name: Run NativeAOT smoke test
+        run: ./Tomlyn.Extensions.Configuration.AotTests/bin/Release/net10.0/linux-x64/publish/Tomlyn.Extensions.Configuration.AotTests
