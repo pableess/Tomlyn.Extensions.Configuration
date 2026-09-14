@@ -1,5 +1,4 @@
 <Solution>
   <Project Path="Tomlyn.Extensions.Configuration\Tomlyn.Extensions.Configuration.csproj" />
-  <Project Path="Tomlyn.Extensions.Configuration.AotTests\Tomlyn.Extensions.Configuration.AotTests.csproj" />
   <Project Path="Tomlyn.Extensions.Configuration.Tests\Tomlyn.Extensions.Configuration.Tests.csproj" />
 </Solution>
